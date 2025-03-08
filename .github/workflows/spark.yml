@@ -14,7 +14,7 @@ jobs:
   # This workflow contains a single job called "build"
   spark:
     # The type of runner that the job will run on
-    runs-on: ubuntu-lates
+    runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.
@@ -23,7 +23,6 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-  
     - uses: actions/setup-python@v5
       with:
         python-version: '3.10'
@@ -37,20 +36,17 @@ jobs:
       with:
         spark-version: '3.5.3'
         hadoop-version: '3'
-        
+    
     - run: spark-submit --version
-    
-    
     - run: spark-submit --master local hello.py
     - run: ls -la  
-    
     - name: GIT commit and push docs
       env: 
         CI_COMMIT_MESSAGE: save spark results
-        CI_COMMIT_AUTHOR: adrimexico1 
+        CI_COMMIT_AUTHOR: adrimexico1
       run: |
         git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-        git config --global user.email "adriallison9@gmail.com"
+        git config --global user.email "adriallison@gmail.com"
         git add results
         git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
         git push
